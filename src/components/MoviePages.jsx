@@ -7,26 +7,35 @@ import tickets from "../assets/TwoTickets.svg";
 import list from "../assets/List.svg";
 import best from "../assets/best.svg";
 import listwhite from "../assets/Listwhite.svg";
-
 import MoviePageSidebar from "./MoviePageSidebar";
 import LoadingPage from "./LoadingPage";
 
 const MoviePage = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
+  const [relatedMovies, setRelatedMovies] = useState([]);
 
   useEffect(() => {
     const apiKey = "b026b102cd6eb469a20000b5f5fd2cab";
     const apiUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`;
+    const relatedMoviesUrl = `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${apiKey}`;
 
     axios
       .get(apiUrl)
       .then((response) => {
         setMovie(response.data);
-        console.log(response);
       })
       .catch((error) => {
-        console.error("Error fetching movie movie?:", error);
+        console.error("Error fetching movie:", error);
+      });
+
+    axios
+      .get(relatedMoviesUrl)
+      .then((response) => {
+        setRelatedMovies(response.data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching related movies:", error);
       });
   }, [id]);
 
@@ -37,7 +46,6 @@ const MoviePage = () => {
   const hours = Math.floor(runtime / 60);
   const minutes = runtime % 60;
   const formattedRuntime = `${hours} h ${minutes} min`;
-  console.log(`The movie's duration is ${hours} hours and ${minutes} minutes`);
 
   return (
     <>
@@ -152,6 +160,22 @@ const MoviePage = () => {
                       </p>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              {/* Display related movies */}
+              <div className="related-movies">
+                <h2>Related Movies</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {relatedMovies.map((relatedMovie) => (
+                    <div key={relatedMovie.id}>
+                      <img
+                        src={`https://image.tmdb.org/t/p/w300${relatedMovie.poster_path}`}
+                        alt={relatedMovie.title}
+                      />
+                      <p>{relatedMovie.title}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

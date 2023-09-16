@@ -1,12 +1,12 @@
-import Logo from "./Logo";
-
 const LoadingPage = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="flex justify-center items-center gap-3">
-        <Logo color='black' />
-        <div className="animate-spin">
-          <div className="rounded-full h-6 w-6 border-b-4 border-r-4 border-rose-700"></div>
+    <div className="min-h-screen flex items-center justify-center bg-indigo-100">
+      <div className="p-6 bg-white rounded-lg shadow-md">
+        <div className="flex items-center justify-center space-x-3">
+          <div className="w-10 h-10 border-t-4 border-b-4 border-red-500 rounded-full animate-spin"></div>
+          <div className="text-xl font-semibold text-red-800">
+            Loading...
+          </div>
         </div>
       </div>
     </div>
