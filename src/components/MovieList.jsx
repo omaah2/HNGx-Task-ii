@@ -6,7 +6,7 @@ const MovieList = ({ movieList }) => {
     <div className="mt-[70px] mx-4 my-6 sm:mx-[70px] sm:mt-[70px] sm:mb-10">
       <div className="flex justify-between items-center mb-[44px]">
         <h2 className="text-black text-[36px] font-dm sm:text-4xl font-bold">
-          Featured Movie
+  TopRated Movie
         </h2>
         <a
           href="#"
