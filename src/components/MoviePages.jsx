@@ -19,8 +19,8 @@ const MoviePage = () => {
 
   useEffect(() => {
     const apiKey = "b026b102cd6eb469a20000b5f5fd2cab";
-    const apiUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`;
-    const relatedMoviesUrl = `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${apiKey}`;
+    const apiUrl = `https://api.themoviedb.org/3/movies/${id}?api_key=${apiKey}`; // Updated path to "movies"
+    const relatedMoviesUrl = `https://api.themoviedb.org/3/movies/${id}/similar?api_key=${apiKey}`; // Updated path to "movies"
 
     axios
       .get(apiUrl)

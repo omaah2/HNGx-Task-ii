@@ -25,7 +25,7 @@ function App() {
             />
           }
         />
-        <Route path="/movie/:id" element={<MoviePage />} />
+        <Route path="/movies/:id" element={<MoviePage />} />
         <Route
           path="/search/:query"
           element={
