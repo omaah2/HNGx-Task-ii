@@ -14,7 +14,7 @@ const Homepage = ({ searchQuery, onSearchInputChange, onHandleSearch }) => {
 
 useEffect(() => {
   const apiKey = "b026b102cd6eb469a20000b5f5fd2cab";
-  const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc&vote_average.gte=7.0`;
+  const apiUrl = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=1`;
 
   axios
     .get(apiUrl)
