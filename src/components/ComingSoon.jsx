@@ -34,16 +34,16 @@ function ComingSoon() {
   }, []);
 
   return (
-    <div className="min-h-screen font-dm min-w-[300px] flex items-center justify-center bg-gradient-to-r from-rose-600 to-rose-800">
-      <div className="py-12 md:px-24 px-14 bg-gray-100 rounded-tr-[8rem] rounded-bl-[8rem] border-[1rem] border-gray-300 shadow-xl flex flex-col justify-center items-center gap-1">
-        <h1 className="text-5xl font-black text-rose-500 mb-4">Coming Soon!</h1>
+    <div className="min-h-screen font-dm min-w-[300px] flex items-center justify-center bg-gradient-to-r from-rose-600 to-rose-700">
+      <div className="py-12 md:px-24 px-14 bg-gray-100 rounded-t-[8rem] rounded-b-[8rem] border-[1rem] border-rose-500 shadow-xl flex flex-col justify-center items-center gap-1">
+        <h1 className="text-6xl font-black text-white mb-4">Coming Soon!</h1>
         <p className="text-gray-600 mb-6 capitalize md:max-w-xs text-center">
           We are currently working on this page. We will be back soon!
         </p>
-        <div className="text-xl font-bold text-gray-800 mb-1">
+        <div className="text-3xl font-bold text-gray-800 mb-1">
           Check back in
         </div>
-        <div className="text-3xl font-black text-rose-600">
+        <div className="text-4xl font-black text-rose-600">
           {remainingTime.days}d {remainingTime.hours}h {remainingTime.minutes}m{" "}
           {remainingTime.seconds}s
         </div>
