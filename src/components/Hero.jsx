@@ -1,16 +1,17 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate instead of useHistory
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import imdb from "../assets/imdb.svg";
 import tomato from "../assets/tomatoes.svg";
 import play from "../assets/Play.svg";
-import Modal from "./Modal"; // Import the Modal component
+import Modal from "./Modal";
 
 const Hero = ({ heroMovies }) => {
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const movies = heroMovies.slice(0, 5);
-  const navigate = useNavigate(); // Use useNavigate for navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -26,8 +27,6 @@ const Hero = ({ heroMovies }) => {
 
   const openModal = () => {
     setIsModalOpen(true);
-    // Use navigate function to navigate to the trailer page with movie ID as a parameter
-    navigate(`/trailer/${movies[currentMovieIndex]?.id}`);
   };
 
   const closeModal = () => {
@@ -48,36 +47,42 @@ const Hero = ({ heroMovies }) => {
                 <div className="flex gap-x-8 w-fit items-center">
                   <span className="flex gap-x-[10px] items-center font-semibold font-dm">
                     <img src={imdb} alt="" />
-                    <p className="text-[12px]">86.0 / 100</p>
+                    <p className="text-[12px]">
+                      {movies[currentMovieIndex]?.imdbRating || "N/A"}
+                    </p>
                   </span>
 
                   <span className="flex gap-x-[10px] items-center font-semibold font-dm">
                     <img src={tomato} alt="" />
-                    <p className="text-[12px]">97%</p>
+                    <p className="text-[12px]">
+                      {movies[currentMovieIndex]?.tomatoRating
+                        ? `${movies[currentMovieIndex].tomatoRating}%`
+                        : "N/A"}
+                    </p>
                   </span>
                 </div>
 
                 <div>
                   <p className="text-[14px] lg:max-w-xl sm:max-w-md font-medium font-dm">
-                    {movies[currentMovieIndex]?.overview}
+                    {movies[currentMovieIndex]?.overview ||
+                      "No overview available."}
                   </p>
                 </div>
 
-                {/* Wrap the "Watch trailer" button with Link */}
-                <Link
-                  to={`/trailer/${movies[currentMovieIndex]?.id}`}
+                <button
+                  onClick={() => openModal()}
                   className="bg-rose-600 text-[14px] font-semibold uppercase rounded px-4 py-3 flex justify-center items-center gap-3 w-fit cursor-pointer"
                 >
                   <img src={play} alt="" />
                   Watch trailer
-                </Link>
+                </button>
               </div>
             </div>
             <img
               data-testid="movie-poster"
-              src={`https://image.tmdb.org/t/p/original${movies[currentMovieIndex].poster_path}`}
+              src={`https://image.tmdb.org/t/p/original${movies[currentMovieIndex]?.poster_path}`}
               className=" h-[650px] w-full object-cover object-bottom transition-opacity duration-500"
-              alt={movies[currentMovieIndex].title}
+              alt={movies[currentMovieIndex]?.title}
             />
           </div>
         )}
@@ -108,12 +113,8 @@ const Hero = ({ heroMovies }) => {
           </div>
         </div>
       </div>
-      {/* Render the Modal component if isModalOpen is true */}
       {isModalOpen && (
-        <Modal
-          videoKey={movies[currentMovieIndex]?.videoKey} // Pass the video key as a prop
-          onClose={closeModal} // Pass the closeModal function as a prop
-        />
+        <Modal movieId={movies[currentMovieIndex]?.id} onClose={closeModal} />
       )}
     </div>
   );

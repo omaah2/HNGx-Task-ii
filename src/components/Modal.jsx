@@ -7,7 +7,7 @@ const Modal = ({ movieId, onClose }) => {
   const [trailerKey, setTrailerKey] = useState(null);
 
   useEffect(() => {
-    const apiKey = "b026b102cd6eb469a20000b5f5fd2cab";
+    const apiKey = "b026b102cd6eb469a20000b5f5fd2cab"; 
 
     axios
       .get(
