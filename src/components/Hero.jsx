@@ -1,11 +1,16 @@
+/* eslint-disable react/prop-types */
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate instead of useHistory
 import { useState, useEffect } from "react";
 import imdb from "../assets/imdb.svg";
 import tomato from "../assets/tomatoes.svg";
 import play from "../assets/Play.svg";
+import Modal from "./Modal"; // Import the Modal component
 
 const Hero = ({ heroMovies }) => {
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal
   const movies = heroMovies.slice(0, 5);
+  const navigate = useNavigate(); // Use useNavigate for navigation
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -19,6 +24,16 @@ const Hero = ({ heroMovies }) => {
     setCurrentMovieIndex(index);
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+    // Use navigate function to navigate to the trailer page with movie ID as a parameter
+    navigate(`/trailer/${movies[currentMovieIndex]?.id}`);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className=" h-[650px] relative">
       <div className="w-full">
@@ -28,7 +43,7 @@ const Hero = ({ heroMovies }) => {
             <div className="absolute border-white h-full flex items-end sm:items-center p-7">
               <div className="w-full text-white lg:px-20 flex flex-col gap-y-4 ">
                 <h1 className="w-full md:max-w-lg sm:text-[48px] text-[30px] font-bold font-dm">
-                {movies[currentMovieIndex]?.title}
+                  {movies[currentMovieIndex]?.title}
                 </h1>
                 <div className="flex gap-x-8 w-fit items-center">
                   <span className="flex gap-x-[10px] items-center font-semibold font-dm">
@@ -44,14 +59,18 @@ const Hero = ({ heroMovies }) => {
 
                 <div>
                   <p className="text-[14px] lg:max-w-xl sm:max-w-md font-medium font-dm">
-                  {movies[currentMovieIndex]?.overview}
+                    {movies[currentMovieIndex]?.overview}
                   </p>
                 </div>
 
-                <div className="bg-rose-600 text-[14px] font-semibold uppercase rounded px-4 py-3 flex justify-center items-center gap-3 w-fit">
+                {/* Wrap the "Watch trailer" button with Link */}
+                <Link
+                  to={`/trailer/${movies[currentMovieIndex]?.id}`}
+                  className="bg-rose-600 text-[14px] font-semibold uppercase rounded px-4 py-3 flex justify-center items-center gap-3 w-fit cursor-pointer"
+                >
                   <img src={play} alt="" />
                   Watch trailer
-                </div>
+                </Link>
               </div>
             </div>
             <img
@@ -89,6 +108,13 @@ const Hero = ({ heroMovies }) => {
           </div>
         </div>
       </div>
+      {/* Render the Modal component if isModalOpen is true */}
+      {isModalOpen && (
+        <Modal
+          videoKey={movies[currentMovieIndex]?.videoKey} // Pass the video key as a prop
+          onClose={closeModal} // Pass the closeModal function as a prop
+        />
+      )}
     </div>
   );
 };

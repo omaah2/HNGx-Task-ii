@@ -29,7 +29,9 @@ const MovieCard = ({ id, title, releaseDate, posterUrl }) => {
     >
       <div
         data-testid="movie-card"
-        className={`relative ${isHovered ? "pop-out" : ""}`}
+        className={`relative ${
+          isHovered ? "pop-out" : ""
+        } rounded-xl shadow-lg transition-transform transform hover:scale-105`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
