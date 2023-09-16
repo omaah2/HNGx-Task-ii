@@ -12,23 +12,24 @@ const Homepage = ({ searchQuery, onSearchInputChange, onHandleSearch }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const apiKey = "b026b102cd6eb469a20000b5f5fd2cab";
-    const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&primary_release_year=2023&sort_by=vote_average.desc&vote_count.gte=1000`;
+useEffect(() => {
+  const apiKey = "b026b102cd6eb469a20000b5f5fd2cab";
+  const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc&vote_average.gte=7.0`;
 
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        setMovies(response.data.results);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        const errorMessage = error;
-        setError(errorMessage);
-        console.error("Error fetching movie data:", error);
-      });
-  }, []);
+  axios
+    .get(apiUrl)
+    .then((response) => {
+      setMovies(response.data.results);
+      setIsLoading(false);
+    })
+    .catch((error) => {
+      setIsLoading(false);
+      const errorMessage = error;
+      setError(errorMessage);
+      console.error("Error fetching movie data:", error);
+    });
+}, []);
+
 
   return (
     <div className="relative">

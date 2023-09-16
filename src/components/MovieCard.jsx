@@ -7,14 +7,32 @@ import { useState } from "react";
 
 const MovieCard = ({ id, title, releaseDate, posterUrl }) => {
   const [liked, setLiked] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleLikeClick = (e) => {
     setLiked(!liked);
     e.stopPropagation();
   };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
-    <Link to={`/movie/${id}`} className="flex flex-col gap-y-3 font-dm">
-      <div data-testid="movie-card" className="relative">
+    <Link
+      to={`/movie/${id}`}
+      className={`flex flex-col gap-y-3 font-dm ${isHovered ? "hovered" : ""}`}
+    >
+      <div
+        data-testid="movie-card"
+        className={`relative ${isHovered ? "pop-out" : ""}`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <img
           className="w-full"
           data-testid="movie-poster"
