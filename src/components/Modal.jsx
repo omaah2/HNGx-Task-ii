@@ -3,32 +3,42 @@ import PropTypes from "prop-types";
 import ReactModal from "react-modal";
 import axios from "axios";
 
-const Modal = ({ movieId, onClose }) => {
-  const [trailerKey, setTrailerKey] = useState(null);
+const Modal = ({ movieIds, onClose }) => {
+  const [trailerKeys, setTrailerKeys] = useState([]);
 
   useEffect(() => {
-    const apiKey = "b026b102cd6eb469a20000b5f5fd2cab"; 
+    const apiKey = "b026b102cd6eb469a20000b5f5fd2cab";
 
-    axios
-      .get(
-        `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`
+    // Fetch trailers for all movie IDs
+    Promise.all(
+      movieIds.map((movieId) =>
+        axios
+          .get(
+            `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`
+          )
+          .then((response) => {
+            const results = response.data.results;
+            const trailer = results.find((video) => video.type === "Trailer");
+            return trailer ? trailer.key : null;
+          })
+          .catch((error) => {
+            console.error(
+              `Error fetching video data for movie ID ${movieId}:`,
+              error
+            );
+            return null;
+          })
       )
-      .then((response) => {
-        const results = response.data.results;
-        const trailer = results.find((video) => video.type === "Trailer");
-
-        if (trailer) {
-          setTrailerKey(trailer.key);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching video data from TMDB:", error);
-      });
-  }, [movieId]);
+    ).then((trailerKeys) => {
+      // Filter out null values (movies without trailers)
+      const validTrailerKeys = trailerKeys.filter((key) => key !== null);
+      setTrailerKeys(validTrailerKeys);
+    });
+  }, [movieIds]);
 
   return (
     <ReactModal
-      isOpen={trailerKey !== null}
+      isOpen={trailerKeys.length > 0}
       onRequestClose={onClose}
       className="modal-content"
       overlayClassName="modal-overlay"
@@ -37,22 +47,26 @@ const Modal = ({ movieId, onClose }) => {
       <button onClick={onClose} className="close-button">
         Close
       </button>
-      {trailerKey && (
-        <iframe
-          title="Trailer"
-          width="560"
-          height="315"
-          src={`https://www.youtube.com/embed/${trailerKey}`}
-          frameBorder="0"
-          allowFullScreen
-        ></iframe>
-      )}
+      {trailerKeys.map((trailerKey, index) => (
+        <div key={index}>
+          {trailerKey && (
+            <iframe
+              title={`Trailer ${index + 1}`}
+              width="560"
+              height="315"
+              src={`https://www.youtube.com/embed/${trailerKey}`}
+              frameBorder="0"
+              allowFullScreen
+            ></iframe>
+          )}
+        </div>
+      ))}
     </ReactModal>
   );
 };
 
 Modal.propTypes = {
-  movieId: PropTypes.number.isRequired,
+  movieIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

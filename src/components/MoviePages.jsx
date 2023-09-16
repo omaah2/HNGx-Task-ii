@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -14,6 +15,7 @@ const MoviePage = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [relatedMovies, setRelatedMovies] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const apiKey = "b026b102cd6eb469a20000b5f5fd2cab";
@@ -27,6 +29,7 @@ const MoviePage = () => {
       })
       .catch((error) => {
         console.error("Error fetching movie:", error);
+        setError(error);
       });
 
     axios
@@ -36,6 +39,7 @@ const MoviePage = () => {
       })
       .catch((error) => {
         console.error("Error fetching related movies:", error);
+        setError(error);
       });
   }, [id]);
 

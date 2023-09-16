@@ -1,11 +1,10 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import imdb from "../assets/imdb.svg";
 import tomato from "../assets/tomatoes.svg";
 import play from "../assets/Play.svg";
-import Modal from "./Modal";
+import Modal from "./Modal"; // Import the Modal component
 
 const Hero = ({ heroMovies }) => {
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
@@ -14,11 +13,11 @@ const Hero = ({ heroMovies }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setInterval(() => {
       setCurrentMovieIndex((prevIndex) => (prevIndex + 1) % movies.length);
     }, 10000);
 
-    return () => clearTimeout(timer);
+    return () => clearInterval(timer);
   }, [currentMovieIndex, movies]);
 
   const handleIndicatorClick = (index) => {
@@ -33,8 +32,14 @@ const Hero = ({ heroMovies }) => {
     setIsModalOpen(false);
   };
 
+  const playTrailer = () => {
+    // You can navigate to the trailer page here
+    navigate(`/trailer/${movies[currentMovieIndex]?.id}`);
+    openModal(); // Open the modal when navigating to the trailer
+  };
+
   return (
-    <div className=" h-[650px] relative">
+    <div className="h-[650px] relative">
       <div className="w-full">
         {movies.slice(0, 5).length > 0 && (
           <div className="relative">
@@ -48,29 +53,26 @@ const Hero = ({ heroMovies }) => {
                   <span className="flex gap-x-[10px] items-center font-semibold font-dm">
                     <img src={imdb} alt="" />
                     <p className="text-[12px]">
-                      {movies[currentMovieIndex]?.imdbRating || "N/A"}
+                      {movies[currentMovieIndex]?.imdbRating}
                     </p>
                   </span>
 
                   <span className="flex gap-x-[10px] items-center font-semibold font-dm">
                     <img src={tomato} alt="" />
                     <p className="text-[12px]">
-                      {movies[currentMovieIndex]?.tomatoRating
-                        ? `${movies[currentMovieIndex].tomatoRating}%`
-                        : "N/A"}
+                      {movies[currentMovieIndex]?.tomatoRating}%
                     </p>
                   </span>
                 </div>
 
                 <div>
                   <p className="text-[14px] lg:max-w-xl sm:max-w-md font-medium font-dm">
-                    {movies[currentMovieIndex]?.overview ||
-                      "No overview available."}
+                    {movies[currentMovieIndex]?.overview}
                   </p>
                 </div>
 
                 <button
-                  onClick={() => openModal()}
+                  onClick={playTrailer}
                   className="bg-rose-600 text-[14px] font-semibold uppercase rounded px-4 py-3 flex justify-center items-center gap-3 w-fit cursor-pointer"
                 >
                   <img src={play} alt="" />

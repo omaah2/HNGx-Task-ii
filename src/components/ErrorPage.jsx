@@ -1,4 +1,25 @@
-const ErrorPage = ({ error: { code, message } }) => {
+/* eslint-disable react/prop-types */
+const ErrorPage = ({ error }) => {
+  if (!error || !error.message) {
+    // If there's no error message, display a generic error message
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="p-6 bg-white rounded-lg shadow-md">
+          <h1 className="text-4xl font-bold text-red-600">Oops!</h1>
+          <p className="text-gray-800 text-lg mt-4 mb-6">An error occurred.</p>
+          <button
+            className="bg-red-600 text-white py-3 px-6 font-semibold rounded-md hover:bg-red-700 focus:outline-none"
+            onClick={() => window.location.reload()}
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const { message } = error;
+
   const reloadPage = () => {
     if (message.includes("Network Error")) {
       window.location.reload();
