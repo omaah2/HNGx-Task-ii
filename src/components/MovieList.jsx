@@ -1,5 +1,3 @@
-// import { useEffect, useState } from "react";
-// import axios from "axios";
 import MovieCard from "./MovieCard";
 
 const MovieList = ({ movieList }) => {
@@ -42,6 +40,8 @@ const MovieList = ({ movieList }) => {
             title={movie.title}
             releaseDate={movie.release_date.slice(0, 2)}
             posterUrl={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+            imdbRating={movie.imdbRating} // Add IMDb rating here
+            tomatoRating={movie.tomatoRating} // Add Rotten Tomatoes rating here
           />
         ))}
       </div>

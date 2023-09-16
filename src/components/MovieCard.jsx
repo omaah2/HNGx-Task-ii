@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import favourite from "../assets/Favorite.svg";
 import favactive from "../assets/Favorite-active.svg";
@@ -5,7 +6,14 @@ import imdb from "../assets/imdb.svg";
 import tomato from "../assets/tomatoes.svg";
 import { useState } from "react";
 
-const MovieCard = ({ id, title, releaseDate, posterUrl }) => {
+const MovieCard = ({
+  id,
+  title,
+  releaseDate,
+  posterUrl,
+  imdbRating,
+  tomatoRating,
+}) => {
   const [liked, setLiked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -67,12 +75,12 @@ const MovieCard = ({ id, title, releaseDate, posterUrl }) => {
       <div className="flex items-center justify-between">
         <span className="flex gap-x-[10px] items-center">
           <img src={imdb} alt="" />
-          <p className="text-xs">86.0 / 100</p>
+          <p className="text-xs">{imdbRating} / 100</p>
         </span>
 
         <span className="flex gap-x-[10px] items-center">
           <img src={tomato} alt="" />
-          <p className="text-xs">97%</p>
+          <p className="text-xs">{tomatoRating}%</p>
         </span>
       </div>
 
